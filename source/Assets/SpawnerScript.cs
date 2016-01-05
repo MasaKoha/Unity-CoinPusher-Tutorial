@@ -20,12 +20,22 @@ public class SpawnerScript : MonoBehaviour {
 	float leftWallPositionX;
 	float rightWallPositionX;
 
+	// scoreTextをインスペクタ上に表示させる
+	public GameObject scoreText;
+	ScoreScript scoreS;
+
 	void Start () {
 		// スクリプトを付けたゲームオブジェクトのRigidbodyコンポーネントを取得する
 		rb = this.GetComponent<Rigidbody>();
 		// leftWall とrightWall のx 座標を取得
 		leftWallPositionX = leftWall.transform.position.x;
 		rightWallPositionX = rightWall.transform.position.x;
+
+		/*
+         * scoreText内にあるScoreScriptをgetComponentで取ってくる。
+         * これで、ScoreScript内にてpublicで宣言した関数を利用できるようになる。
+         */
+		scoreS = scoreText.GetComponent<ScoreScript>();
 	}
 
 	void Update () {
@@ -60,6 +70,8 @@ public class SpawnerScript : MonoBehaviour {
          */
 		if (Input.GetKeyDown("space")) {
 			Instantiate(coin,this.transform.position,this.transform.rotation);
+			// スペースキーが押されたら、スコアを1点減点させる
+			scoreS.subScore(1);
 		}
 	}
 }
